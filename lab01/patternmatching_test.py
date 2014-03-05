@@ -1,21 +1,20 @@
-import patternmatching
+from patternmatching import *
 
 datafile = open('data.csv', 'r')
+
+functions = [naive, rabim_karp, knuth_morris_pratt, boyer_moore]
+
 for data in datafile:
 	needle, haystack, needleinhay = data.split(",", 3)
 	if needleinhay[0] == "T":
 		needleinhay = True
 	else:
 		needleinhay = False
-	found = patternmatching.naive(needle, haystack)
 	print("")
 	print(data)
-	if found == needleinhay:
-		print("Correct Output - naive")
-	else:
-		print("Incorrect Output - naive")
-	found = patternmatching.knuth_morris_pratt(needle, haystack)
-	if found == needleinhay:
-		print("Correct Output - knuth_morris_pratt")
-	else:
-		print("Incorrect Output - knuth_morris_pratt")
+	for function in functions:
+		found = function(needle, haystack)
+		if found == needleinhay:
+			print("Correct Output - " + str(function).split(" ", 3)[1])
+		else:
+			print("Incorrect Output - " + str(function).split(" ", 3)[1])
