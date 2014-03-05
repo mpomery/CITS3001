@@ -54,9 +54,39 @@ def knuth_morris_pratt(needle, haystack):
 		#print("match " + str(match))
 		#print("failed on " + needle[match])
 		#print("leftmost at " + str(lookup[ord(needle[match])]))
-		
 		pos += lookup[ord(needle[match])]
 	return False
 
 def boyer_moore(needle, haystack):
+	"build a lookup table of characters in the haystack"
+	lookup = [0] * 256
+	for i in range(0, len(needle)):
+		lookup[ord(needle[i])] = i + 1
+	#print(lookup)
+	pos = 0
+	while (pos + len(needle) < len(haystack)):
+		match = len(needle) - 1
+		while (match >= 0):
+			if needle[match] == haystack[match + pos]:
+				#if characters match
+				match -= 1
+			else:
+				break
+		if match < 0:
+			return True
+		# characters didn't match
+		#print("pos " + str(pos))
+		#print("match " + str(match))
+		#print("failed on " + needle[match])
+		#print("trying to match " + haystack[match + pos])
+		if lookup[ord(haystack[match + pos])] == 0:
+			# We don't have this character
+			# move the start of our search sting to after it
+			#print("not in needle")
+			pos += len(needle)
+		else:
+			# char from haystack is in needle
+			#print("dist from end " + str(len(needle) - lookup[ord(needle[match])] + 1))
+			pos += len(needle) - lookup[ord(needle[match])] + 1
+		
 	return False
