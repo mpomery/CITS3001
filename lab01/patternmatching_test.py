@@ -8,9 +8,14 @@ for data in datafile:
 	else:
 		needleinhay = False
 	found = patternmatching.naive(needle, haystack)
+	print("")
+	print(data)
 	if found == needleinhay:
 		print("Correct Output - naive")
-		print(data)
 	else:
 		print("Incorrect Output - naive")
-		print(data)
+	found = patternmatching.knuth_morris_pratt(needle, haystack)
+	if found == needleinhay:
+		print("Correct Output - knuth_morris_pratt")
+	else:
+		print("Incorrect Output - knuth_morris_pratt")
