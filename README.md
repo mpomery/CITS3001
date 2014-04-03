@@ -12,7 +12,6 @@ http://undergraduate.csse.uwa.edu.au/units/CITS3001/lectures/
 **lab02**
 
 * Question 2
-* Question 3
 
 **lab03**
 

@@ -1,3 +1,5 @@
+from __future__ import division # Cause Python...
+
 if __name__ == '__main__':
 	print("0-1 Knapsack")
 	print("Include this and use the functions to fill a knapsack with as much")
@@ -29,4 +31,47 @@ def dynamic_knapsack(weights, values, maxweight):
 			#print V[3]
 			#print
 	#print V
-	return V[nitems][maxweight]
+	return V[nitems][maxweight] # Returns value at end of table
+	
+	# Need to work backwards through table to determie what we have in the bag
+
+def fractional_knapsack(weights, values, maxweight):
+	# can take fractions of items
+	# so figure out value/weight of everything
+	# And take from highest to lowest
+	
+	nitems = len(weights)
+	
+	valperweight = []
+	
+	for item in range (nitems):
+		valperweight.append((values[item]/weights[item], item))
+		# value/weight and item number
+	
+	print(valperweight)
+	
+	ordered = sorted(valperweight, reverse=True)
+	
+	print(ordered)
+	
+	# shove stuff into our bag
+	contentsweight = 0
+	bagcontents = []
+	i = 0
+	while contentsweight < maxweight and i < nitems:
+		# how much can we fit in the bag
+		item = valperweight[i][1]
+		spaceremaining = maxweight - contentsweight
+		if weights[item] < spaceremaining: # if the item fits in fully
+			bagcontents.append((item, 1, weights[item]))
+			contentsweight += weights[item]
+		else:
+			amounttotake = spaceremaining/weights[item]
+			bagcontents.append((item, amounttotake, weights[item]))
+			contentsweight += weights[item] * amounttotake
+		i = i + 1
+	
+	print(bagcontents)
+	print(contentsweight)
+	
+	return 0

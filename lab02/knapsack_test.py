@@ -24,10 +24,10 @@ functions = [dynamic_knapsack]
 #values = [2, 4, 3, 0]
 #max_weight = 4
 
-weights = [1, 2, 3]
-values = [2, 3, 4]
+values = [3, 2, 4]
+weights = [2, 2, 3]
 max_weight = 5
 
-kvalue = dynamic_knapsack(weights, values, max_weight)
+kvalue = fractional_knapsack(weights, values, max_weight)
 
 print kvalue
