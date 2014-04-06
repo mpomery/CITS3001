@@ -5,7 +5,9 @@ if __name__ == '__main__':
 
 def lcs_naive(string1, string2):
 	max = max(len(string1), len(string1))
-	if max == 0:
+	if len(string1) == 0 or len(string1) == 0:
 		return 0
-	
-
+	else if len(string1) == len(string1):
+		pass
+	else:
+		pass
