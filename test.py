@@ -21,7 +21,7 @@ if __name__ == '__main__':
 			starttime = time.clock()
 			for data in testfile.dataset:
 				value = func(*data[0])
-				if value == data[1]:
+				if value in data[1]:
 					success += 1
 				else:
 					failure += 1
