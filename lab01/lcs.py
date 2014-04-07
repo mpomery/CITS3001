@@ -9,8 +9,8 @@ def lcs_naive(string1, string2):
 		return ""
 	elif string1[-1] == string2[-1]:
 		# Last characters are the same
-		print(string1[0:-1])
-		print(string2[0:-1])
+		#print(string1[0:-1])
+		#print(string2[0:-1])
 		return lcs_naive(string1[0:-1], string2[0:-1]) + string1[-1]
 	else:
 		left = lcs_naive(string1[0:-1], string2)
