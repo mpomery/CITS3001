@@ -4,10 +4,9 @@ if __name__ == '__main__':
 	print("returns the length of the LCS")
 
 def lcs_naive(string1, string2):
-	max = max(len(string1), len(string1))
-	if len(string1) == 0 or len(string1) == 0:
+	if len(string1) == 0 or len(string2) == 0:
 		return 0
-	else if len(string1) == len(string1):
+	else if len(string1) == len(string2):
 		pass
 	else:
 		pass
