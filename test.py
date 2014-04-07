@@ -1,13 +1,16 @@
 import time
 import sys
-
-from lcs_test import *
+import os
+import inspect
 
 if __name__ == '__main__':
-	if len(sys.argv) != 2:
-		print "Usage: " + str(sys.argv[0]) + " <testfile>"
+	if len(sys.argv) != 3:
+		print "Usage: " + str(sys.argv[0]) + " <directory> <testfile>"
 	else:
-		testfile = __import__(sys.argv[1], globals())
+		os.chdir(sys.argv[1])
+		sys.path.insert(0, os.getcwd())
+		
+		testfile = __import__(sys.argv[2], globals())
 		mod = __import__(testfile.fname, globals())
 
 		for function in testfile.functions:
