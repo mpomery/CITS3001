@@ -25,8 +25,8 @@ if __name__ == '__main__':
 					success += 1
 				else:
 					failure += 1
-					print "Failure " + data
-					print value
+					print "Failure " + str(data)
+					print str(value)
 					print ""
 			endtime = time.clock()
 			print ""
