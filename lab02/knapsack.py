@@ -40,18 +40,21 @@ def dynamic_knapsack(weights, values, maxweight):
 	ks = []
 	
 	print ""
-	while V[m][w] != 0:
-		print ""
-		print V[m][w] # Returns value at end of table
-		print m
-		print w
-		if V[m - 1][w] == V[m][w]:
-			m -= 1
-		else:
+	while m * w > 0:
+		#print ""
+		#print V[m][w] # Returns value at end of table
+		#print m
+		#print w
+		if V[m - 1][w] != V[m][w]:
+			# If the number above is not the same, put the item in the knapsack
+			# Then move left
 			ks.append(m)
-			print "this"
 			m -= 1
-			w -= 1
+			w -= weights[m]
+		else:
+			# This item is not in the knapsack
+			m -= 1
+		
 	ks = sorted(ks)
 	return ks
 	# Need to work backwards through table to determie what we have in the bag
