@@ -30,14 +30,16 @@ def dynamic_knapsack(weights, values, maxweight):
 			#print V[2]
 			#print V[3]
 			#print
-	print V
+	for row in V:
+		print row
 	# figure out what items to put in
+	
 	m = nitems
 	w = maxweight
+	totalvalue = V[m][w]
 	ks = []
 	
-	print V[m][w] # Returns value at end of table
-	
+	print ""
 	while V[m][w] != 0:
 		print ""
 		print V[m][w] # Returns value at end of table
@@ -51,7 +53,6 @@ def dynamic_knapsack(weights, values, maxweight):
 			m -= 1
 			w -= 1
 	ks = sorted(ks)
-	print ks
 	return ks
 	# Need to work backwards through table to determie what we have in the bag
 
