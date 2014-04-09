@@ -30,9 +30,29 @@ def dynamic_knapsack(weights, values, maxweight):
 			#print V[2]
 			#print V[3]
 			#print
-	#print V
-	return V[nitems][maxweight] # Returns value at end of table
+	print V
+	# figure out what items to put in
+	m = nitems
+	w = maxweight
+	ks = []
 	
+	print V[m][w] # Returns value at end of table
+	
+	while V[m][w] != 0:
+		print ""
+		print V[m][w] # Returns value at end of table
+		print m
+		print w
+		if V[m - 1][w] == V[m][w]:
+			m -= 1
+		else:
+			ks.append(m)
+			print "this"
+			m -= 1
+			w -= 1
+	ks = sorted(ks)
+	print ks
+	return ks
 	# Need to work backwards through table to determie what we have in the bag
 
 def fractional_knapsack(weights, values, maxweight):
@@ -71,7 +91,4 @@ def fractional_knapsack(weights, values, maxweight):
 			contentsweight += weights[item] * amounttotake
 		i = i + 1
 	
-	print(bagcontents)
-	print(contentsweight)
-	
-	return 0
+	return bagcontents
