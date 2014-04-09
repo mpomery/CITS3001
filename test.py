@@ -13,11 +13,13 @@ def runtest(functions, dataset):
 		for data in dataset:
 			value = func(*data[0])
 			if value in data[1]:
-				success += 1
+					success += 1
 			else:
 				failure += 1
-				print "Failure " + str(data)
-				print str(value)
+				print "Failure"
+				print "Arguments: " + str(data[0])
+				print "Expected:  " + str(data[1])
+				print "Output:    " + str(value)
 				print ""
 		endtime = time.clock()
 		print ""
