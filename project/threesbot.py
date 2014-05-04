@@ -26,15 +26,32 @@ def main():
 		print("score: " + str(scoreboard(board)))
 		play(board, nexttile)
 
+def getxy(x, y, udlr):
+	# Pretends we have rotated the board so a movement left means a movement
+	# in the defined ULDR
+	if udlr in ['R', 'D']:
+		# reverse y values
+		y = 3 - y
+	if udlr in ['U', 'D']:
+		# swap x and y values
+		x, y = y, x
+	return (x, y)
+
 def domove(board, move):
-	if move == "L":
-		pass
+	# Treat everything as a left shift. Just "rotate" values to change them
+	# We can do this with the magic of getyx()!
+	# Which runs in O(1) time and O(1) memory to be super cool!
 	return board
 
 def printboard(board):
-	#print(str("a").ljust(3))
 	for i in range(4):
-		print(''.join(str(board[i][j]).ljust(3) for j in range(4))) 
+		print(''.join(str(board[i][j]).ljust(3) for j in range(4)))
+
+def printboardrotated(board, rotation):
+	for i in range(4):
+		for j in range(4):
+			x, y = getxy(i, j, rotation)
+			print(''.join(str(board[x][y]).ljust(3)))
 
 def scoreboard(board):
 	score = 0
@@ -44,11 +61,6 @@ def scoreboard(board):
 				score += 1
 			elif board[i][j] != 0:
 				score += int(math.pow(3, math.log(board[i][j]/3, 2) + 1))
-	"""score(empty) = 0 
-	score(1) = score(2) = 1 
-	score(x) = 3 ^ (log2(x / 3) + 1), x > 2 """
-	
-	
 	return score
 
 def play(board, tiles):
