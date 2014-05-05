@@ -53,7 +53,7 @@ def domove(board, move, nexttile):
 				#if board[x][y] == board[xn][yn] or board[x][y] == 0 or sorted((board[x][y], board[xn][yn])) == [1, 2]:
 				if board[xn][yn] != 0 and \
 				(board[x][y] == 0 or \
-				board[x][y] == board[xn][yn] or \
+				(board[x][y] == board[xn][yn] and board[x][y] not in [1, 2])or \
 				sorted((board[x][y], board[xn][yn])) == [1, 2]):
 					# equal. combine them
 					# this square is empty. try fill it.
@@ -87,7 +87,7 @@ def domove(board, move, nexttile):
 		i -= 1
 	# We have narrowed down the possible locations now
 	if len(possible) != 0:
-		possible = max(possible)
+		possible = min(possible)
 	x, y = getxy(possible, 3, move)
 	board[x][y] = nexttile
 	return board
@@ -113,7 +113,7 @@ def scoreboard(board):
 	return score
 
 def play(board, tiles):
-	moves = "DRLU"
+	moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
 		move = moves[i]
 		tile = tiles[i]
