@@ -45,29 +45,51 @@ def domove(board, move, nexttile):
 	possible=[]
 	for i in range(4):
 		# everything moves "left". deal with it row by row
-		# start is second position
-		for j in range(4):
+		for j in range(3):
 			x, y = getxy(i, j, move)
 			xn, yn = getxy(i, j + 1, move)
 			if max(x, y, xn, yn) != 4 and min(x, y, xn, yn) != -1:
 				#print(move + str(i) + str(j) + str(x) + str(y) + str(xn) + str(yn))
-				if board[x][y] == board[xn][yn] or board[x][y] == 0 or sorted((board[x][y], board[xn][yn])) == [1, 2]:
+				#if board[x][y] == board[xn][yn] or board[x][y] == 0 or sorted((board[x][y], board[xn][yn])) == [1, 2]:
+				if board[xn][yn] != 0 and \
+				(board[x][y] == 0 or \
+				board[x][y] == board[xn][yn] or \
+				sorted((board[x][y], board[xn][yn])) == [1, 2]):
 					# equal. combine them
 					# this square is empty. try fill it.
 					# 1 and 2 merge
 					board[x][y] += board[xn][yn]
 					board[xn][yn] = 0
-					if x not in possible:
-						possible.append(x)
+					if i not in possible:
+						possible.append(i)
 					#print(str(x) + str(y) + str(xn) + str(yn))
 	# Lexographical score
-	print("p: " + str(possible))
-	for i in range(3, -1, -1):
-		
+	# What we need to do here:
+	# With a list of all cells that 
+	# Starting at the "right" most position of the row, find the lowest number
+	# remove any not that number
+	# move "left" one until there is only one possible position
+	#print("p: " + str(possible))
+	i = 3
+	while len(possible) > 0 and i > 0:
+		cells = []
+		vals = []
 		for row in possible:
-			x, y = getxy(i, row, move)
-			#if board[i][row] > min:
-			#	possible.remove(row)
+			x, y = getxy(row, i, move)
+			cells.append([row, board[x][y]])
+			vals.append(board[x][y])
+		minimum = min(vals)
+		for r in cells:
+			#print(str(i) + " " + str(minimum) + " " + str(r[0]) + " " + str(r[1]))
+			if r[1] != minimum:
+				possible.remove(r[0])
+		#print(str(i) + " " + str(possible))
+		i -= 1
+	# We have narrowed down the possible locations now
+	if len(possible) != 0:
+		possible = max(possible)
+	x, y = getxy(possible, 3, move)
+	board[x][y] = nexttile
 	return board
 
 def printboard(board):
