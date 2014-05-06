@@ -20,10 +20,9 @@ def main():
 		input.readline()
 		board = [map(int, input.readline().strip().split()) for i in range(4)]
 		for line in input:
-			print(line)
 			map(tiles.append, map(int, line.split()))
 		input.close()
-		print(str(tiles))
+		#print(str(tiles))
 		printboard(board)
 		print("score: " + str(scoreboard(board)))
 		play(board, tiles)
@@ -88,9 +87,14 @@ def domove(board, move, nexttile):
 		#print(str(i) + " " + str(possible))
 		i -= 1
 	# We have narrowed down the possible locations now
-	if len(possible) != 0:
+	if len(possible) == 0:
+		# No where to place tile
+		return None
+	elif len(possible) != 0:
 		possible = min(possible)
 	x, y = getxy(possible, 3, move)
+	print("nt" + str(nexttile))
+	print("xy" + str(x) + str(y))
 	board[x][y] = nexttile
 	return board
 
@@ -127,8 +131,16 @@ def play(board, tiles):
 		print("score: " + str(scoreboard(board)))
 		print('')
 		#raw_input()"""
-	for nexttile in tiles:
-		qt = QuadTree(0)
+	print(tiles)
+	for i in range(len(tiles)):
+		nexttile = tiles[i]
+		print(nexttile)
+		qt = QuadTree(board)
+		qt.left = QuadTree(domove(board, "L", nexttile))
+		qt.right = QuadTree(domove(board, "R", nexttile))
+		qt.up = QuadTree(domove(board, "U", nexttile))
+		qt.down = QuadTree(domove(board, "D", nexttile))
+		qt.printqt()
 		
 
 class QuadTree:
@@ -136,10 +148,13 @@ class QuadTree:
 	right = None
 	up = None
 	down = None
+	board = None
 	score = 0
-	def __init__(self, s):
-		score = s
+	def __init__(self, board):
+		score = scoreboard(board)
 	
+	def printqt(self):
+		print("aaaa")
 	
 
 if __name__ == '__main__':
