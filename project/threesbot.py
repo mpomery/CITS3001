@@ -19,10 +19,12 @@ def main():
 		input.readline() # First 2 lines are comments
 		input.readline()
 		board = [map(int, input.readline().strip().split()) for i in range(4)]
-		printboard(board)
 		for line in input:
-			map(tiles.append, map(int, line.strip().split()))
+			print(line)
+			map(tiles.append, map(int, line.split()))
 		input.close()
+		print(str(tiles))
+		printboard(board)
 		print("score: " + str(scoreboard(board)))
 		play(board, tiles)
 
@@ -71,7 +73,7 @@ def domove(board, move, nexttile):
 	# move "left" one until there is only one possible position
 	#print("p: " + str(possible))
 	i = 3
-	while len(possible) > 0 and i > 0:
+	while len(possible) > 0 and i >= 0:
 		cells = []
 		vals = []
 		for row in possible:
@@ -115,13 +117,16 @@ def scoreboard(board):
 def play(board, tiles):
 	moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
+		print("Move: " + str(i + 1))
 		move = moves[i]
 		tile = tiles[i]
 		board = domove(board, move, tile)
 		print(move)
 		printboard(board)
+		print("added tile: " + str(tiles[i]))
 		print("score: " + str(scoreboard(board)))
 		print('')
+		raw_input()
 
 if __name__ == '__main__':
 	main()
