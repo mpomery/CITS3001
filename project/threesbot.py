@@ -115,7 +115,7 @@ def scoreboard(board):
 	return score
 
 def play(board, tiles):
-	moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
+	"""moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
 		print("Move: " + str(i + 1))
 		move = moves[i]
@@ -126,7 +126,21 @@ def play(board, tiles):
 		print("added tile: " + str(tiles[i]))
 		print("score: " + str(scoreboard(board)))
 		print('')
-		raw_input()
+		#raw_input()"""
+	for nexttile in tiles:
+		qt = QuadTree(0)
+		
+
+class QuadTree:
+	left = None
+	right = None
+	up = None
+	down = None
+	score = 0
+	def __init__(self, s):
+		score = s
+	
+	
 
 if __name__ == '__main__':
 	main()
