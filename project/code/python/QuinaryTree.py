@@ -5,6 +5,8 @@
 #
 # Useful for mapping the different moves that threesbot can make
 
+import threes
+
 class QuinaryTree:
 	def __init__(self, b):
 		self.left = None
@@ -12,31 +14,31 @@ class QuinaryTree:
 		self.up = None
 		self.down = None
 		self.board = b
-		self.score = scoreboard(b)
+		self.score = threes.scoreboard(b)
 
 	def printqt(self):
 		print("qt for board:")
-		printboard(self.board)
+		threes.printboard(self.board)
 		print("score: " + str(self.score))
 		for i in [self.left, self.right, self.up, self.down]:
 			if i != None:
-				printboard(i.board)
+				threes.printboard(i.board)
 				print('')
 
 	def makeleaves(self, tile):
 		if self.left == None:
-			self.left = QuinaryTree(domove(self.board, "L", tile))
-			printboard(self.left.board)
+			self.left = QuinaryTree(threes.domove(self.board, "L", tile))
+			threes.printboard(self.left.board)
 			print("")
 		if self.right == None:
-			self.right = QuinaryTree(domove(self.board, "R", tile))
-			printboard(self.right.board)
+			self.right = QuinaryTree(threes.domove(self.board, "R", tile))
+			threes.printboard(self.right.board)
 			print("")
 		if self.up == None:
-			self.up = QuinaryTree(domove(self.board, "U", tile))
-			printboard(self.up.board)
+			self.up = QuinaryTree(threes.domove(self.board, "U", tile))
+			threes.printboard(self.up.board)
 			print("")
 		if self.down == None:
-			self.down = QuinaryTree(domove(self.board, "D", tile))
-			printboard(self.down.board)
+			self.down = QuinaryTree(threes.domove(self.board, "D", tile))
+			threes.printboard(self.down.board)
 			print("")
