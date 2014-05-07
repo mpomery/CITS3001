@@ -1,3 +1,10 @@
+#!/usr/bin/python
+
+# Quinary Tree (QuinaryTree.py)
+# Written by Mitchell 'Pommers' Pomery (21130887)
+#
+# Useful for mapping the different moves that threesbot can make
+
 class QuinaryTree:
 	def __init__(self, b):
 		self.left = None

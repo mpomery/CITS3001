@@ -1,14 +1,23 @@
+#!/usr/bin/python
+
+# Threes (threes.py)
+# Written by Mitchell 'Pommers' Pomery (21130887)
+#
+# All the things required to play a game of threes
+
 import math
 
+# Pretends we have rotated the board so a movement left means a movement
+# in the defined ULDR
 def getxy(x, y, udlr):
-	# Pretends we have rotated the board so a movement left means a movement
-	# in the defined ULDR
 	if udlr in ['R', 'D']:
 		y = 3 - y
 	if udlr in ['U', 'D']:
 		x, y = y, x
 	return (x, y)
 
+# Moves all tiles on the board in the specified direction. Then adds the new
+# tile
 def domove(board, move, nexttile):
 	# Treat everything as a left shift. Just "rotate" values to change them
 	# We can do this with the magic of getyx()!
@@ -19,7 +28,13 @@ def domove(board, move, nexttile):
 		for j in range(3):
 			x, y = getxy(i, j, move)
 			xn, yn = getxy(i, j + 1, move)
+			# Should figure out how to remove the need for the next line
 			if max(x, y, xn, yn) != 4 and min(x, y, xn, yn) != -1:
+				# IF
+				# Next Position not 0 AND
+				#   current position is zero OR
+				#   both pieces match. Aren't 1's or 2's OR
+				#   pieces are a 1 and a 2
 				if board[xn][yn] != 0 and \
 				(board[x][y] == 0 or \
 				(board[x][y] == board[xn][yn] and board[x][y] not in [1, 2])or \
@@ -28,10 +43,15 @@ def domove(board, move, nexttile):
 					board[xn][yn] = 0
 					if i not in possible:
 						possible.append(i)
+	# If there is nowhere to place tile, exit now
+	if len(possible) == 0:
+		return None
+	# Working backward, place the new tile
 	i = 3
 	while len(possible) > 0 and i >= 0:
 		cells = []
 		vals = []
+		# Narrow down the locations for the new tile
 		for row in possible:
 			x, y = getxy(row, i, move)
 			cells.append([row, board[x][y]])
@@ -42,19 +62,17 @@ def domove(board, move, nexttile):
 				possible.remove(r[0])
 		i -= 1
 	# We have narrowed down the possible locations now
-	if len(possible) == 0:
-		# No where to place tile
-		return None
-	elif len(possible) != 0:
-		possible = min(possible)
+	possible = min(possible)
 	x, y = getxy(possible, 3, move)
 	board[x][y] = nexttile
 	return board
 
+# Print the board to the command line for debugging
 def printboard(board):
 	for i in range(4):
 		print(''.join(str(board[i][j]).ljust(3) for j in range(4)))
 
+# Calculate the score for a board
 def scoreboard(board):
 	score = 0
 	for i in range(4):

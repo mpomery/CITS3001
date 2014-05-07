@@ -3,9 +3,13 @@
 # Threes Bot (threesbot.py)
 # Written by Mitchell 'Pommers' Pomery (21130887)
 
+# A bot to play threes and aim to get the best score, knowing what tiles are
+# coming up
+
 import sys
 import threes
 
+# Main function. Loads the input file
 def main():
 	# Load Data from input file arg
 	# We assume the input is correctly formatted
@@ -29,6 +33,7 @@ def main():
 		input.close()
 		play(board, tiles)
 
+# The bot itself
 def play(board, tiles):
 	moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
@@ -43,5 +48,6 @@ def play(board, tiles):
 		print('')
 		#raw_input()
 
+# If called from the command line, run main
 if __name__ == '__main__':
 	main()
