@@ -132,30 +132,47 @@ def play(board, tiles):
 		print('')
 		#raw_input()"""
 	print(tiles)
-	for i in range(len(tiles)):
+	for i in range(1):#range(len(tiles)):
 		nexttile = tiles[i]
 		print(nexttile)
-		qt = QuadTree(board)
-		qt.left = QuadTree(domove(board, "L", nexttile))
-		qt.right = QuadTree(domove(board, "R", nexttile))
-		qt.up = QuadTree(domove(board, "U", nexttile))
-		qt.down = QuadTree(domove(board, "D", nexttile))
+		qt = QuinaryTree(board)
+		#qt.left = QuinaryTree(domove(board, "L", nexttile))
+		#qt.right = QuinaryTree(domove(board, "R", nexttile))
+		#qt.up = QuinaryTree(domove(board, "U", nexttile))
+		#qt.down = QuinaryTree(domove(board, "D", nexttile))
+		qt.makeleaves(nexttile)
 		qt.printqt()
 		
 
-class QuadTree:
+class QuinaryTree:
 	left = None
 	right = None
 	up = None
 	down = None
 	board = None
 	score = 0
-	def __init__(self, board):
-		score = scoreboard(board)
+	def __init__(self, b):
+		self.board = b
+		self.score = scoreboard(b)
 	
 	def printqt(self):
-		print("aaaa")
+		print("qt for board:")
+		printboard(self.board)
+		print("score: " + str(self.score))
+		for i in [self.left, self.right, self.up, self.down]:
+			if i != None:
+				printboard(i.board)
+				print('')
 	
+	def makeleaves(self, tile):
+		if self.left == None:
+			self.left = QuinaryTree(domove(self.board, "L", tile))
+		if self.right == None:
+			self.right = QuinaryTree(domove(self.board, "R", tile))
+		if self.up == None:
+			self.up = QuinaryTree(domove(self.board, "U", tile))
+		if self.down == None:
+			self.down = QuinaryTree(domove(self.board, "D", tile))
 
 if __name__ == '__main__':
 	main()
