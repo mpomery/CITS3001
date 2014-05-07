@@ -4,7 +4,7 @@
 # Written by Mitchell 'Pommers' Pomery (21130887)
 
 import sys
-import math
+import threes
 
 def main():
 	# Load Data from input file arg
@@ -29,101 +29,28 @@ def main():
 		input.close()
 		play(board, tiles)
 
-def getxy(x, y, udlr):
-	# Pretends we have rotated the board so a movement left means a movement
-	# in the defined ULDR
-	if udlr in ['R', 'D']:
-		y = 3 - y
-	if udlr in ['U', 'D']:
-		x, y = y, x
-	return (x, y)
 
-def domove(board, move, nexttile):
-	# Treat everything as a left shift. Just "rotate" values to change them
-	# We can do this with the magic of getyx()!
-	# Which runs in O(1) time and O(1) memory to be super cool!
-	# everything moves "left". deal with it row by row
-	possible=[]
-	for i in range(4):
-		for j in range(3):
-			x, y = getxy(i, j, move)
-			xn, yn = getxy(i, j + 1, move)
-			if max(x, y, xn, yn) != 4 and min(x, y, xn, yn) != -1:
-				if board[xn][yn] != 0 and \
-				(board[x][y] == 0 or \
-				(board[x][y] == board[xn][yn] and board[x][y] not in [1, 2])or \
-				sorted((board[x][y], board[xn][yn])) == [1, 2]):
-					board[x][y] += board[xn][yn]
-					board[xn][yn] = 0
-					if i not in possible:
-						possible.append(i)
-	i = 3
-	while len(possible) > 0 and i >= 0:
-		cells = []
-		vals = []
-		for row in possible:
-			x, y = getxy(row, i, move)
-			cells.append([row, board[x][y]])
-			vals.append(board[x][y])
-		minimum = min(vals)
-		for r in cells:
-			if r[1] != minimum:
-				possible.remove(r[0])
-		i -= 1
-	# We have narrowed down the possible locations now
-	if len(possible) == 0:
-		# No where to place tile
-		return None
-	elif len(possible) != 0:
-		possible = min(possible)
-	x, y = getxy(possible, 3, move)
-	board[x][y] = nexttile
-	return board
-
-def printboard(board):
-	for i in range(4):
-		print(''.join(str(board[i][j]).ljust(3) for j in range(4)))
-
-def scoreboard(board):
-	score = 0
-	for i in range(4):
-		for j in range(4):
-			if board[i][j] in [1, 2]:
-				score += 1
-			elif board[i][j] != 0:
-				score += int(math.pow(3, math.log(board[i][j]/3, 2) + 1))
-	return score
 
 def play(board, tiles):
-	"""moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
+	moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
 		print("Move: " + str(i + 1))
 		move = moves[i]
 		tile = tiles[i]
-		board = domove(board, move, tile)
+		board = threes.domove(board, move, tile)
 		print(move)
-		printboard(board)
+		threes.printboard(board)
 		print("added tile: " + str(tiles[i]))
-		print("score: " + str(scoreboard(board)))
+		print("score: " + str(threes.scoreboard(board)))
 		print('')
-		#raw_input()"""
-	print(tiles)
-	for i in range(1):#range(len(tiles)):
-		nexttile = tiles[i]
-		print(nexttile)
-		qt = QuinaryTree(board)
-		qt.makeleaves(nexttile)
-		qt.printqt()
-		
+		#raw_input()
 
-class QuinaryTree:
-	left = None
-	right = None
-	up = None
-	down = None
-	board = None
-	score = 0
+"""class QuinaryTree:
 	def __init__(self, b):
+		self.left = None
+		self.right = None
+		self.up = None
+		self.down = None
 		self.board = b
 		self.score = scoreboard(b)
 	
@@ -139,12 +66,20 @@ class QuinaryTree:
 	def makeleaves(self, tile):
 		if self.left == None:
 			self.left = QuinaryTree(domove(self.board, "L", tile))
+			printboard(self.left.board)
+			print("")
 		if self.right == None:
 			self.right = QuinaryTree(domove(self.board, "R", tile))
+			printboard(self.right.board)
+			print("")
 		if self.up == None:
 			self.up = QuinaryTree(domove(self.board, "U", tile))
+			printboard(self.up.board)
+			print("")
 		if self.down == None:
 			self.down = QuinaryTree(domove(self.board, "D", tile))
+			printboard(self.down.board)
+			print("")"""
 
 if __name__ == '__main__':
 	main()
