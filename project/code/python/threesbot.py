@@ -8,6 +8,7 @@
 
 import sys
 import threes
+import QuinaryTree
 
 # Main function. Loads the input file
 def main():
@@ -35,7 +36,18 @@ def main():
 
 # The bot itself
 def play(board, tiles):
-	moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
+	i = 0
+	qt = QuinaryTree.QuinaryTree(board)
+	qt.printqt()
+	qt.left = QuinaryTree.QuinaryTree(threes.domove(board, "L", tiles[i]))
+	qt.left.printqt()
+	qt.right = QuinaryTree.QuinaryTree(threes.domove(board, "R", tiles[i]))
+	qt.right.printqt()
+	qt.up = QuinaryTree.QuinaryTree(threes.domove(board, "U", tiles[i]))
+	qt.up.printqt()
+	qt.down = QuinaryTree.QuinaryTree(threes.domove(board, "D", tiles[i]))
+	qt.down.printqt()
+	"""moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
 		print("Move: " + str(i + 1))
 		move = moves[i]
@@ -46,7 +58,7 @@ def play(board, tiles):
 		print("added tile: " + str(tiles[i]))
 		print("score: " + str(threes.scoreboard(board)))
 		print('')
-		#raw_input()
+		#raw_input()"""
 
 # If called from the command line, run main
 if __name__ == '__main__':

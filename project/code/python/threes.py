@@ -6,6 +6,7 @@
 # All the things required to play a game of threes
 
 import math
+import copy
 
 # Pretends we have rotated the board so a movement left means a movement
 # in the defined ULDR
@@ -18,11 +19,12 @@ def getxy(x, y, udlr):
 
 # Moves all tiles on the board in the specified direction. Then adds the new
 # tile
-def domove(board, move, nexttile):
+def domove(boardin, move, nexttile):
 	# Treat everything as a left shift. Just "rotate" values to change them
 	# We can do this with the magic of getyx()!
 	# Which runs in O(1) time and O(1) memory to be super cool!
 	# everything moves "left". deal with it row by row
+	board = copy.deepcopy(boardin)
 	possible=[]
 	for i in range(4):
 		for j in range(3):

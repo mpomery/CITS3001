@@ -24,21 +24,3 @@ class QuinaryTree:
 			if i != None:
 				threes.printboard(i.board)
 				print('')
-
-	def makeleaves(self, tile):
-		if self.left == None:
-			self.left = QuinaryTree(threes.domove(self.board, "L", tile))
-			threes.printboard(self.left.board)
-			print("")
-		if self.right == None:
-			self.right = QuinaryTree(threes.domove(self.board, "R", tile))
-			threes.printboard(self.right.board)
-			print("")
-		if self.up == None:
-			self.up = QuinaryTree(threes.domove(self.board, "U", tile))
-			threes.printboard(self.up.board)
-			print("")
-		if self.down == None:
-			self.down = QuinaryTree(threes.domove(self.board, "D", tile))
-			threes.printboard(self.down.board)
-			print("")
