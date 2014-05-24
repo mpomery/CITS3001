@@ -37,16 +37,49 @@ def main():
 # The bot itself
 def play(board, tiles):
 	i = 0
-	qt = QuinaryTree.QuinaryTree(board)
-	qt.printqt()
-	qt.left = QuinaryTree.QuinaryTree(threes.domove(board, "L", tiles[i]))
-	qt.left.printqt()
-	qt.right = QuinaryTree.QuinaryTree(threes.domove(board, "R", tiles[i]))
-	qt.right.printqt()
-	qt.up = QuinaryTree.QuinaryTree(threes.domove(board, "U", tiles[i]))
-	qt.up.printqt()
-	qt.down = QuinaryTree.QuinaryTree(threes.domove(board, "D", tiles[i]))
-	qt.down.printqt()
+	output = ""
+	print(tiles)
+	raw_input()
+	while i < len(tiles):
+		#if i >= 48:
+		#	raw_input()
+		print(board)
+		qt = QuinaryTree.QuinaryTree(board)
+		qt.printqt()
+		qt.makeleaves(tiles[i])
+		print(i)
+		print(len(tiles))
+		
+		maximum = max(qt.left.score, qt.right.score, qt.up.score, qt.down.score)
+		
+		if (maximum == qt.left.score):
+			print("Moved: Left")
+			board = qt.left.board
+			print(board)
+			output += "L"
+		elif (maximum == qt.right.score):
+			print("Moved: Right")
+			board = qt.right.board
+			print(board)
+			output += "R"
+		elif (maximum == qt.up.score):
+			print("Moved: Up")
+			board = qt.up.board
+			print(board)
+			output += "U"
+		elif (maximum == qt.down.score):
+			print("Moved: Down")
+			board = qt.down.board
+			print(board)
+			output += "D"
+		i += 1
+		print("")
+	print("")
+	print("")
+	print(output)
+	threes.printboard(board)
+	
+	
 	"""moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
 		print("Move: " + str(i + 1))

@@ -77,6 +77,8 @@ def printboard(board):
 # Calculate the score for a board
 def scoreboard(board):
 	score = 0
+	if board == None:
+		return -1
 	for i in range(4):
 		for j in range(4):
 			if board[i][j] in [1, 2]:
