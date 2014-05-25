@@ -48,12 +48,14 @@ def main():
 		input.close()
 		for i in range (100):
 			boardout = copy.deepcopy(board)
-			(moves, finalboard) = play(boardout, tiles)
-			#threes.printboard(finalboard)
-			#print(moves)
+			(moves, finalboard) = naive(boardout, tiles)
+			threes.printboard(finalboard)
+			print(moves)
+			print("")
+			print("")
 
 # The bot itself
-def play(board, tiles):
+def naive(board, tiles):
 	i = 0
 	output = ""
 	#print(tiles)
@@ -67,6 +69,10 @@ def play(board, tiles):
 		qt.makeleaves(tiles[i])
 		#print(i)
 		#print(len(tiles))
+		
+		if qt.left.board == None and qt.right.board == None and qt.up.board == None and qt.down.board == None:
+			#print("Nones!")
+			return(output, board)
 		
 		maximum = max(qt.left.score, qt.right.score, qt.up.score, qt.down.score)
 		
