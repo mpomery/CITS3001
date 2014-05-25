@@ -14,7 +14,7 @@ class QuinaryTree:
 		self.up = None
 		self.down = None
 		self.board = b
-		print("BOARD: " + str(self.board))
+		#print("BOARD: " + str(self.board))
 		self.score = threes.scoreboard(b)
 
 	def printqt(self):

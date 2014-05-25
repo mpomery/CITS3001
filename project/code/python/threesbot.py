@@ -7,10 +7,24 @@
 # coming up
 
 import sys
+import copy
+import time
 import threes
 import QuinaryTree
 
+# Some magic for timing the playthrough
+# Stolen From: http://stackoverflow.com/a/5478448
+def timing(f):
+	def wrap(*args):
+		time1 = time.time()
+		ret = f(*args)
+		time2 = time.time()
+		print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
+		return ret
+	return wrap
+
 # Main function. Loads the input file
+@timing
 def main():
 	# Load Data from input file arg
 	# We assume the input is correctly formatted
@@ -32,53 +46,56 @@ def main():
 		for line in input:
 			map(tiles.append, map(int, line.split()))
 		input.close()
-		play(board, tiles)
+		for i in range (100):
+			boardout = copy.deepcopy(board)
+			(moves, finalboard) = play(boardout, tiles)
+			#threes.printboard(finalboard)
+			#print(moves)
 
 # The bot itself
 def play(board, tiles):
 	i = 0
 	output = ""
-	print(tiles)
-	raw_input()
+	#print(tiles)
+	#raw_input()
 	while i < len(tiles):
 		#if i >= 48:
 		#	raw_input()
-		print(board)
+		#print(board)
 		qt = QuinaryTree.QuinaryTree(board)
-		qt.printqt()
+		#qt.printqt()
 		qt.makeleaves(tiles[i])
-		print(i)
-		print(len(tiles))
+		#print(i)
+		#print(len(tiles))
 		
 		maximum = max(qt.left.score, qt.right.score, qt.up.score, qt.down.score)
 		
 		if (maximum == qt.left.score):
-			print("Moved: Left")
+			#print("Moved: Left")
 			board = qt.left.board
-			print(board)
+			#print(board)
 			output += "L"
 		elif (maximum == qt.right.score):
-			print("Moved: Right")
+			#print("Moved: Right")
 			board = qt.right.board
-			print(board)
+			#print(board)
 			output += "R"
 		elif (maximum == qt.up.score):
-			print("Moved: Up")
+			#print("Moved: Up")
 			board = qt.up.board
-			print(board)
+			#print(board)
 			output += "U"
 		elif (maximum == qt.down.score):
-			print("Moved: Down")
+			#print("Moved: Down")
 			board = qt.down.board
-			print(board)
+			#print(board)
 			output += "D"
 		i += 1
-		print("")
-	print("")
-	print("")
-	print(output)
-	threes.printboard(board)
-	
+		#print("")
+	#print("")
+	#print("")
+	#print(output)
+	return(output, board)
 	
 	"""moves = "UDRRRRUUDDDRLLLUUDDULRLUDDRRRDRUUULLUUURRRUURULLLLURULUULULURUUURUULULURUR"
 	for i in range(len(moves)):
