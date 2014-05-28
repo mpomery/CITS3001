@@ -72,7 +72,7 @@ def domove(boardin, move, nexttile):
 # Print the board to the command line for debugging
 def printboard(board):
 	for i in range(4):
-		print(''.join(str(board[i][j]).ljust(3) for j in range(4)))
+		print(''.join(str(board[i][j]).ljust(5) for j in range(4)))
 
 # Calculate the score for a board
 def scoreboard(board):

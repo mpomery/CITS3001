@@ -87,6 +87,104 @@ def naive(board, tiles):
 		i += 1
 	return(output, board)
 
+# http://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+def astar(board, tiles):
+	i = 0;
+	output = "";
+	while i < len(tiles):
+		move = astarmove(board, tiles[i:])
+		if move == "":
+			return (output, board)
+		board = threes.domove(board, move, tiles[i])
+		#threes.printboard(board)
+		#print(threes.scoreboard(board))
+		output += move
+		#print(output)
+		i += 1
+	return (output, board)
+
+def astarmove(board, tiles):
+	output = ""
+	closed = []
+	open = [(board, "")]
+	maxscore = threes.scoreboard(board)
+	
+	time1 = time.time()
+	
+	#print(len(tiles))
+	while len(open) > 0 and time.time() - time1 < 0.15:
+		#print(open)
+		#print(closed)
+		current = open.pop(0)
+		#print(current)
+		#print(current[0])
+		#print(threes.scoreboard(current[0]))
+		#print(len(open))
+		#print(len(current[1]))
+		if len(current[1]) == len(tiles):
+			pass
+		else:
+			qt = QuinaryTree.QuinaryTree(current[0])
+			qt.makeleaves(tiles[len(current[1])])
+			factor = 0.95
+			if qt.left.board != None:
+				if qt.left.score >= factor * maxscore:
+					maxscore = qt.left.score
+					open.append((qt.left.board, current[1] + "L"))
+			if qt.right.board != None:
+				if qt.right.score >= factor * maxscore:
+					maxscore = factor * qt.right.score
+					open.append((qt.right.board, current[1] + "R"))
+			if qt.up.board != None:
+				if qt.up.score >= factor * maxscore:
+					maxscore = qt.up.score
+					open.append((qt.up.board, current[1] + "U"))
+			if qt.down.board != None:
+				if qt.down.score >= factor * maxscore:
+					maxscore = qt.down.score
+					open.append((qt.down.board, current[1] + "D"))
+			closed.append(current)
+			#print(open)
+			#print(closed)
+	
+	#print(len(open))
+	#print(len(closed))
+	
+	left = 0
+	right = 0
+	up = 0
+	down = 0
+	
+	#print(open)
+	for b in open:
+		if b[1][0] == "L":
+			left += 1
+		if b[1][0] == "R":
+			right += 1
+		if b[1][0] == "U":
+			up += 1
+		if b[1][0] == "D":
+			down += 1
+		#print(b[0])
+		#print(b[1])
+		#print(threes.scoreboard(b[0]))
+	#print("Left: " + str(left))
+	#print("Right: " + str(right))
+	#print("Up: " + str(up))
+	#print("Down: " + str(down))
+	
+	maximum = max(left, right, up, down)
+	if maximum == 0:
+		return ""
+	if left == maximum:
+		return "L"
+	if right == maximum:
+		return "R"
+	if up == maximum:
+		return "U"
+	if down == maximum:
+		return "D"
+
 # If called from the command line, run main
 if __name__ == '__main__':
 	main()
