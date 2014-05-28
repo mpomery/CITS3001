@@ -33,15 +33,19 @@ Kieran Hannigan (21151118)}
 
 % What is Threes
 \paragraph \indent
-We were tasked with the creation of an artificial intelligence to play the game Threes\cite{threes}.
+We were tasked with the creation of an artificial intelligence to play the game Threes\cite{threes}, aiming to get the highest score possible given a board and a list of upcoming tiles.
 Threes is a simple mobile game where you are given a four by four grid occupied by tiles.
-The aim is to merge tiles until the board is full, and no more merges are possible.
+The aim is to merge tiles until the board is full and no more merges are possible, or until there are no tiles left to be added to the board.
+Each move (left, right, up or down) moves each tile one space on the grid if it is free, or merges it with the tile it moves into if conditions are met.
 You are only able to merge a one tile with a two tile, and any other tile with one of the same number.
 
 \begin{figure}[h!]
-	\caption{An Example Threes Game}
+	\caption{An Example Threes Board}
 	\centering \includegraphics[scale=0.25]{images/examplethreesboard}
 \end{figure}
+
+% What Exactly Are We doing
+
 
 % Specs
 \paragraph \indent
@@ -62,13 +66,14 @@ Unfortunately we ran out of time to impliment the artificial intelligence in C, 
 \subsection*{Making Moves}
 \paragraph \indent
 There are two ways the moves can be implimented in the bot, either each possible move seperately, or by rotating the board and treating all moves as the one direction.
-We implimented the latter of the two algorithms, as it allows us to reduce the 
+We implimented the latter of the two algorithms, as it allows us to reduce the amount of code written.
+However rotating a sixteen by sixteen board can take several operations, so to avoid this, instead of rotating the board, we rotate the co-ordinates.
 
 \subsection*{Naive}
 \paragraph \indent
 Initially an naive algorithm was implimented to play Threes one move at a time.
 It would look at the four possible moves, left, right, up and down, and take the one that gives it the highest score.
-The naive algorithm is useful as a heuristic later in the A* implimentation
+The naive algorithm is useful as a heuristic later in the A* implimentation.
 
 \subsection*{Minimax}
 \paragraph \indent
@@ -78,6 +83,8 @@ This difference means that the Threes bot does not end up playing against anythi
 
 \subsection*{A Star}
 \paragraph \indent
+A* by definition finds the least-cost path from the initial state to a goal state.
+The goal state in a game of Threes is the highest scoring full board, meaning that the algorithm needs to avoid filling the board for as long as possible.
 
 % bibliography
 \begin{thebibliography}{20} 
