@@ -14,18 +14,67 @@
 	}
 }
 
+\setlength{\parindent}{12pt}
 
-\begin{document}
-\title{CITS3001 Algorithms and Artificial Intelligence}
-\subtitle{Threes Bot Project}
-\author{Mitchell Pomery\\
-21130887}
-\maketitle
-
-\clearpage
 
 % document
+\begin{document}
 
-\section*{Introduction}
+% Title Page
+\title{CITS3001 Algorithms and Artificial Intelligence}
+\subtitle{Threes Artificial Intelligence Project}
+\author{Mitchell Pomery (21130887)\\
+Kieran Hannigan (21151118)}
+\maketitle
+\clearpage
+
+% Introduction
+\section*{The Task}
+
+\paragraph \indent
+We were tasked with the creation of an artificial intelligence to play the game Threes\cite{threes}. Threes is a simple mobile game where you are given a four by four grid occupied by tiles. The aim is to merge tiles until the board is full, and no more merges are possible. You are only able to merge a one tile with a two tile, and any other tile with one of the same number.
+
+\paragraph \indent
+The specifications for the artificial intelligence stated the following:
+
+\begin{itemize}
+	\item All upcoming tiles are known
+	\item The location of the placed tile is not random
+	\item The AI needs to make 5 to 10 moves per second
+\end{itemize}
+
+% Language Choice
+\paragraph \indent
+Python was chosen as an initial language for the artificial intelligence due to the ability to rapidly prototype different algorithms.
+The intention was to later port the final algorithm to C to see an increase in performance, and henceforth let the bot look further into the future for better moves.
+
+% Algorithms
+\section*{Algorithms}
+
+\subsection*{Making Moves}
+\paragraph \indent
+There are two ways the moves can be implimented in the bot, either each possible move seperately, or by rotating the board and treating all moves as the one direction.
+
+\subsection*{Naive}
+\paragraph \indent
+Initially an naive algorithm was implimented to play Threes one move at a time.
+It would look at the four possible moves, left, right, up and down, and take the one that gives it the highest score.
+The naive algorithm is useful as a heuristic later in the A* implimentation
+
+\subsection*{Minimax}
+\paragraph \indent
+A minimax implimentation was investigated due to the similarities between Threes and 2048, and the already existing 2048 AI by Matt Overlan\cite{2048ai}.
+In 2048 the next tile is places randomly, while the specifications state that the next tile will be placed in the lexographically lowest location.
+This difference means that the Threes bot does not end up playing against anything, and so minimax is not a relevant algorithm.
+
+\subsection*{A Star}
+\paragraph \indent
+
+% bibliography
+\begin{thebibliography}{20} 
+ \bibitem{threes} THREES - A tiny puzzle that grows on you. 2014. THREES - A tiny puzzle that grows on you. [ONLINE] Available at: http://asherv.com/threes/. [Accessed 28 May 2014].
+ \bibitem{2048ai} 2048. 2014. 2048. [ONLINE] Available at: http://ov3y.github.io/2048-AI/. [Accessed 28 May 2014].
+\end{thebibliography} 
+
 
 \end{document}
