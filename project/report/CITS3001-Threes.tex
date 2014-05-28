@@ -29,24 +29,32 @@ Kieran Hannigan (21151118)}
 \clearpage
 
 % Introduction
-\section*{The Task}
+\section*{Introduction}
 
+% What is Threes
 \paragraph \indent
-We were tasked with the creation of an artificial intelligence to play the game Threes\cite{threes}. Threes is a simple mobile game where you are given a four by four grid occupied by tiles. The aim is to merge tiles until the board is full, and no more merges are possible. You are only able to merge a one tile with a two tile, and any other tile with one of the same number.
+We were tasked with the creation of an artificial intelligence to play the game Threes\cite{threes}.
+Threes is a simple mobile game where you are given a four by four grid occupied by tiles.
+The aim is to merge tiles until the board is full, and no more merges are possible.
+You are only able to merge a one tile with a two tile, and any other tile with one of the same number.
 
+\begin{figure}[h!]
+	\caption{An Example Threes Game}
+	\centering \includegraphics[scale=0.25]{images/examplethreesboard}
+\end{figure}
+
+% Specs
 \paragraph \indent
-The specifications for the artificial intelligence stated the following:
-
-\begin{itemize}
-	\item All upcoming tiles are known
-	\item The location of the placed tile is not random
-	\item The AI needs to make 5 to 10 moves per second
-\end{itemize}
+The specifications for the threes bot stated three main requirements that were considered during the design and implimentation of the algorithms.
+Due to the fact that all upcoming tiles are known, the artificial intelligence is able to look infinitely into the future.
+Tile placement is not random, meaning that each move will only have one known outcome and so moving and placing the next tile can be seen as one action.
+A full search of every possible combination of moves is not possible, as the bot is required to make five to ten moves per second.
 
 % Language Choice
 \paragraph \indent
 Python was chosen as an initial language for the artificial intelligence due to the ability to rapidly prototype different algorithms.
 The intention was to later port the final algorithm to C to see an increase in performance, and henceforth let the bot look further into the future for better moves.
+Unfortunately we ran out of time to impliment the artificial intelligence in C, but did program the basics for Threes.
 
 % Algorithms
 \section*{Algorithms}
@@ -54,6 +62,7 @@ The intention was to later port the final algorithm to C to see an increase in p
 \subsection*{Making Moves}
 \paragraph \indent
 There are two ways the moves can be implimented in the bot, either each possible move seperately, or by rotating the board and treating all moves as the one direction.
+We implimented the latter of the two algorithms, as it allows us to reduce the 
 
 \subsection*{Naive}
 \paragraph \indent
