@@ -11,20 +11,29 @@ import copy
 import time
 import threes
 import QuinaryTree
+#import psutil
+import os
+
+functime = 0
 
 # Some magic for timing the playthrough
 # Stolen From: http://stackoverflow.com/a/5478448
 def timing(f):
 	def wrap(*args):
+		global functime
 		time1 = time.time()
 		ret = f(*args)
 		time2 = time.time()
+		functime = (time2-time1)*1000.0
 		print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
 		return ret
 	return wrap
 
 # Main function. Loads the input file
 def main():
+	# Up out process priority
+	#p = psutil.Process(os.getpid())
+	#p.set_nice(psutil.HIGH_PRIORITY_CLASS)
 	# Load Data from input file arg
 	# We assume the input is correctly formatted
 	if len(sys.argv) != 3:
@@ -57,9 +66,11 @@ def main():
 				output.write("\n")
 				output.write("\n")
 				output.write(moves)
+				print(str(len(moves)) + " moves made in " + str(functime) + "ms")
+				print("OR")
+				print(str(len(moves)//(functime//1000)) + " moves per second")
 
 # Niave bot. Will find the best move then make it.
-@timing
 def naive(board, tiles):
 	i = 0
 	output = ""
@@ -88,6 +99,7 @@ def naive(board, tiles):
 	return(output, board)
 
 # http://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+@timing
 def astar(board, tiles):
 	i = 0;
 	output = "";
@@ -109,19 +121,12 @@ def astarmove(board, tiles):
 	open = [(board, "")]
 	maxscore = threes.scoreboard(board)
 	maxpath = ""
+	starttime = time.time()
+	depth = 0
 	
-	time1 = time.time()
-	
-	#print(len(tiles))
-	while len(open) > 0 and time.time() - time1 < 0.15:
-		#print(open)
-		#print(closed)
+	while len(open) > 0 and time.time() - starttime < 0.19:# and depth < 8:
 		current = open.pop(0)
-		#print(current)
-		#print(current[0])
-		#print(threes.scoreboard(current[0]))
-		#print(len(open))
-		#print(len(current[1]))
+		depth = len(current[1])
 		if len(current[1]) == len(tiles):
 			pass
 		else:
@@ -153,67 +158,10 @@ def astarmove(board, tiles):
 						maxpath = current[1] + "D"
 					open.append((qt.down.board, current[1] + "D"))
 			closed.append(current)
-			#print(open)
-			#print(closed)
 	
 	if len(maxpath) == 0:
 		return ""
 	return maxpath[0]
-	
-	#print(len(open))
-	#print(len(closed))
-	
-	# Prune non complete level
-	"""if len(open) == 0:
-		return ""
-	
-	maxlength = 0
-	for o in open:
-		maxlength = max(maxlength, len(o[1]))
-	#print(maxlength)
-	
-	i = len(open) - 1
-	while i >= 0:
-		if len(open[i][1]) != maxlength:
-			open.pop(i)
-		i -= 1
-	
-	left = 0
-	right = 0
-	up = 0
-	down = 0
-	
-	#print(len(open))
-	#print(closed)
-	for b in open:
-		if b[1][0] == "L":
-			left += 1
-		if b[1][0] == "R":
-			right += 1
-		if b[1][0] == "U":
-			up += 1
-		if b[1][0] == "D":
-			down += 1
-		#print(b[0])
-		#print(b[1])
-		#print(threes.scoreboard(b[0]))
-	#print("Left: " + str(left))
-	#print("Right: " + str(right))
-	#print("Up: " + str(up))
-	#print("Down: " + str(down))
-	
-	maximum = max(left, right, up, down)
-	if maximum == 0:
-		return ""
-	if left == maximum:
-		return "L"
-	if right == maximum:
-		return "R"
-	if up == maximum:
-		return "U"
-	if down == maximum:
-		return "D"
-	"""
 
 # If called from the command line, run main
 if __name__ == '__main__':
