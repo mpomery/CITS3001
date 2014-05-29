@@ -112,3 +112,13 @@ def edgeheavy(board):
 		utility += 10;
 	else:
 	return utility
+
+def united(board):
+	utility = 0;
+	for i in range(4):
+		for j in range(2):
+			if not(board[i][j+1] < board[i][j] and board[i][j+1] < board[i][j+2]
+				utility += 5;
+			if not(board[i+1][j] < board[i][j] and board[i+1][j] < board[i+2][j]
+				utility += 5;
+	return utility
