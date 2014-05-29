@@ -102,3 +102,13 @@ def usedpaces(board):
 			if board[i][j] != 0:
 				used += 1
 	return used
+
+def edgeheavy(board):
+	utility = 1
+	if not(board[1][1] > board[0][1] or board[1][1] > board[1][0] or 
+		   board[1][2] > board[0][2] or board[1][2] > board[1][3] or 
+		   board[2][1] > board[2][0] or board[2][1] > board[3][1] or 
+		   board[2][2] > board[3][2] or board[2][2] > board[2][3]):
+		utility += 10;
+	else:
+	return utility
