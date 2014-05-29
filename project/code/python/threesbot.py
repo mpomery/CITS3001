@@ -14,7 +14,7 @@ import QuinaryTree
 #import psutil
 import os
 
-functime = 0
+functime = 1
 
 # Some magic for timing the playthrough
 # Stolen From: http://stackoverflow.com/a/5478448
@@ -51,12 +51,13 @@ def main(infile, outfile):
 	
 	boardout = copy.deepcopy(board)
 	(moves, finalboard) = astar(boardout, tiles)
+	print(finalboard)
 	threes.printboard(finalboard)
 	print("Score: " + str(threes.scoreboard(finalboard)))
 	print(moves)
 	print(str(len(moves)) + " moves made in " + str(functime) + "ms")
 	print("OR")
-	print(str(len(moves)//(functime//1000)) + " moves per second")
+	print(str(len(moves)/(functime/1000.0)) + " moves per second")
 	output = open(outfile, "w")
 	output.write("ThreesBot\n")
 	output.write("By Mitchell Pomery (21130887) and Kieran Hannigan (21151118)\n")
@@ -96,16 +97,81 @@ def astar(board, tiles):
 	i = 0;
 	output = "";
 	while i < len(tiles):
-		move = astarmove(board, tiles[i:])
+		move = astarmoves(board, tiles[i:])
 		if move == "":
 			return (output, board)
+		else:
+			print(move)
 		board = threes.domove(board, move, tiles[i])
-		#threes.printboard(board)
-		#print(threes.scoreboard(board))
 		output += move
-		#print(output)
 		i += 1
+		print(output)
 	return (output, board)
+
+def astarmoves(board, tiles):
+	lookahead = min(5, len(tiles))
+	nextXtiles = tiles[0:lookahead]
+	if board == None:
+		return ""
+	print(nextXtiles)
+	print(board)
+	naiveX = naive(board, nextXtiles)
+	scorenaive = threes.scoreboard(naiveX[1]) # f(n)
+	#print(naiveX)
+	#print(scorenaive)
+	#print(nextXtiles)
+	
+	if len(naiveX[0]) == 0:
+		return ""
+	
+	closed = []
+	open = [(board, "")]
+	
+	depth = 0
+	while len(open) > 0 and depth < lookahead: #and time.time() - starttime < 0.19:
+		#print("aa")
+		current = open.pop(0)
+		closed.append(current)
+		depth = len(current[1])
+		#print(nextXtiles)
+		#print(len(current[1]))
+		#print(lookahead)
+		if len(current[1]) == lookahead:
+			pass
+		else:
+			qt = QuinaryTree.QuinaryTree(current[0])
+			qt.makeleaves(nextXtiles[len(current[1])])
+			if qt.left.board != None:
+				open.append((qt.left.board, current[1] + "L"))
+			if qt.right.board != None:
+				open.append((qt.right.board, current[1] + "R"))
+			if qt.up.board != None:
+				open.append((qt.up.board, current[1] + "U"))
+			if qt.down.board != None:
+				open.append((qt.down.board, current[1] + "D"))
+	#print("open: " + str(len(open)))
+	#print("closed: " + str(len(closed)))
+	
+	count = 0
+	count2 = 0
+	
+	bestadjusted = scorenaive * threes.freespaces(naiveX[1])
+	bestpath = naiveX[0]
+	
+	for o in open:
+		if threes.scoreboard(o[0]) >= scorenaive:
+			count += 1
+			#print(o[0])
+			#print(threes.scoreboard(o[0]))
+			#print(threes.freespaces(o[0]))
+			#print(threes.scoreboard(o[0]) * threes.freespaces(o[0]))
+			if threes.scoreboard(o[0]) * threes.freespaces(o[0]) >= bestadjusted:
+				count2 += 1
+				bestadjusted = threes.scoreboard(o[0]) * threes.freespaces(o[0])
+				bestpath = o[1]
+	
+	#print("")
+	return bestpath[0]
 
 def astarmove(board, tiles):
 	output = ""

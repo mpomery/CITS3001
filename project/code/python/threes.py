@@ -86,3 +86,11 @@ def scoreboard(board):
 			elif board[i][j] != 0:
 				score += int(math.pow(3, math.log(board[i][j]/3, 2) + 1))
 	return score
+
+def freespaces(board):
+	free = -1
+	for i in range(4):
+		for j in range(4):
+			if board[i][j] == 0:
+				free += 1
+	return free
