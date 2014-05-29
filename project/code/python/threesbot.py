@@ -30,45 +30,37 @@ def timing(f):
 	return wrap
 
 # Main function. Loads the input file
-def main():
+def main(infile, outfile):
 	# Up out process priority
 	#p = psutil.Process(os.getpid())
 	#p.set_nice(psutil.HIGH_PRIORITY_CLASS)
 	# Load Data from input file arg
 	# We assume the input is correctly formatted
-	if len(sys.argv) != 3:
-		print("Usage:\n\tthreesbot.py input output\n")
-		print("\tinput\tInput File")
-		print("\toutput\tOutput File")
-		print("\n")
-		return 1
-	else:
-		# This stuff is Pythonic!
-		tiles = []
-		input = open(sys.argv[1], "r")
-		input.readline() # First 2 lines are comments
-		input.readline()
-		# Read in the board
-		board = [map(int, input.readline().strip().split()) for i in range(4)]
-		# Read in the tiles
-		for line in input:
-			map(tiles.append, map(int, line.split()))
-		input.close()
-		
-		for i in range(1):
-			boardout = copy.deepcopy(board)
-			(moves, finalboard) = astar(boardout, tiles)
-			if i is 0:
-				threes.printboard(finalboard)
-				print("Score: " + str(threes.scoreboard(finalboard)))
-				print(moves)
-				output = open(sys.argv[2], "w")
-				output.write("\n")
-				output.write("\n")
-				output.write(moves)
-				print(str(len(moves)) + " moves made in " + str(functime) + "ms")
-				print("OR")
-				print(str(len(moves)//(functime//1000)) + " moves per second")
+
+	# This stuff is Pythonic!
+	tiles = []
+	input = open(infile, "r")
+	input.readline() # First 2 lines are comments
+	input.readline()
+	# Read in the board
+	board = [map(int, input.readline().strip().split()) for i in range(4)]
+	# Read in the tiles
+	for line in input:
+		map(tiles.append, map(int, line.split()))
+	input.close()
+	
+	boardout = copy.deepcopy(board)
+	(moves, finalboard) = astar(boardout, tiles)
+	threes.printboard(finalboard)
+	print("Score: " + str(threes.scoreboard(finalboard)))
+	print(moves)
+	print(str(len(moves)) + " moves made in " + str(functime) + "ms")
+	print("OR")
+	print(str(len(moves)//(functime//1000)) + " moves per second")
+	output = open(outfile, "w")
+	output.write("ThreesBot\n")
+	output.write("By Mitchell Pomery (21130887) and Kieran Hannigan (21151118)\n")
+	output.write(moves)
 
 # Niave bot. Will find the best move then make it.
 def naive(board, tiles):
@@ -165,4 +157,10 @@ def astarmove(board, tiles):
 
 # If called from the command line, run main
 if __name__ == '__main__':
-	main()
+	if len(sys.argv) != 3:
+		print("Usage:\n\tthreesbot.py input output\n")
+		print("\tinput\tInput File")
+		print("\toutput\tOutput File")
+		print("\n")
+	else:
+		main(sys.argv[1], sys.argv[2])
