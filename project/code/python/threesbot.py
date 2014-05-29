@@ -48,7 +48,7 @@ def main():
 		
 		for i in range(1):
 			boardout = copy.deepcopy(board)
-			(moves, finalboard) = naive(boardout, tiles)
+			(moves, finalboard) = astar(boardout, tiles)
 			if i is 0:
 				threes.printboard(finalboard)
 				print("Score: " + str(threes.scoreboard(finalboard)))
@@ -108,6 +108,7 @@ def astarmove(board, tiles):
 	closed = []
 	open = [(board, "")]
 	maxscore = threes.scoreboard(board)
+	maxpath = ""
 	
 	time1 = time.time()
 	
@@ -126,36 +127,64 @@ def astarmove(board, tiles):
 		else:
 			qt = QuinaryTree.QuinaryTree(current[0])
 			qt.makeleaves(tiles[len(current[1])])
-			factor = 0.95
+			factor = 0.75
 			if qt.left.board != None:
 				if qt.left.score >= factor * maxscore:
-					maxscore = qt.left.score
+					maxscore = max(maxscore, qt.left.score)
+					if maxscore == qt.left.score:
+						maxpath = current[1] + "L"
 					open.append((qt.left.board, current[1] + "L"))
 			if qt.right.board != None:
 				if qt.right.score >= factor * maxscore:
-					maxscore = factor * qt.right.score
+					maxscore = max(maxscore, qt.right.score)
+					if maxscore == qt.right.score:
+						maxpath = current[1] + "R"
 					open.append((qt.right.board, current[1] + "R"))
 			if qt.up.board != None:
 				if qt.up.score >= factor * maxscore:
-					maxscore = qt.up.score
+					maxscore = max(maxscore, qt.up.score)
+					if maxscore == qt.up.score:
+						maxpath = current[1] + "U"
 					open.append((qt.up.board, current[1] + "U"))
 			if qt.down.board != None:
 				if qt.down.score >= factor * maxscore:
-					maxscore = qt.down.score
+					maxscore = max(maxscore, qt.down.score)
+					if maxscore == qt.down.score:
+						maxpath = current[1] + "D"
 					open.append((qt.down.board, current[1] + "D"))
 			closed.append(current)
 			#print(open)
 			#print(closed)
 	
+	if len(maxpath) == 0:
+		return ""
+	return maxpath[0]
+	
 	#print(len(open))
 	#print(len(closed))
+	
+	# Prune non complete level
+	"""if len(open) == 0:
+		return ""
+	
+	maxlength = 0
+	for o in open:
+		maxlength = max(maxlength, len(o[1]))
+	#print(maxlength)
+	
+	i = len(open) - 1
+	while i >= 0:
+		if len(open[i][1]) != maxlength:
+			open.pop(i)
+		i -= 1
 	
 	left = 0
 	right = 0
 	up = 0
 	down = 0
 	
-	#print(open)
+	#print(len(open))
+	#print(closed)
 	for b in open:
 		if b[1][0] == "L":
 			left += 1
@@ -184,6 +213,7 @@ def astarmove(board, tiles):
 		return "U"
 	if down == maximum:
 		return "D"
+	"""
 
 # If called from the command line, run main
 if __name__ == '__main__':
