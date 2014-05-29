@@ -110,15 +110,14 @@ def edgeheavy(board):
 		   board[2][1] > board[2][0] or board[2][1] > board[3][1] or 
 		   board[2][2] > board[3][2] or board[2][2] > board[2][3]):
 		utility += 10;
-	else:
 	return utility
 
 def united(board):
 	badness = 0;
 	for i in range(4):
 		for j in range(2):
-			if board[i][j+1] < board[i][j] and board[i][j+1] < board[i][j+2]
-				badness -= (board[i][j+1] + board[i][j+2])/2 - board[i][j+1];
-			if board[i+1][j] < board[i][j] and board[i+1][j] < board[i+2][j]
-				badness -= (board[i+1][j] + board[i+2][j])/2 - board[i+1][j];
+			if board[i][j+1] < board[i][j] and board[i][j+1] < board[i][j+2]:
+				badness -= (board[i][j+1] + board[i][j+2])/2 - board[i][j+1]
+			if board[i+1][j] < board[i][j] and board[i+1][j] < board[i+2][j]:
+				badness -= (board[i+1][j] + board[i+2][j])/2 - board[i+1][j]
 	return badness
