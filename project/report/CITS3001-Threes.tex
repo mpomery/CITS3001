@@ -1,7 +1,7 @@
 \documentclass[a4paper,12pt,openany]{report}
 
 \usepackage{titling}
-\usepackage[margin=0.5in,headsep=0.25in,footskip=0.25in]{geometry}
+\usepackage[margin=0.75in,headsep=0.5in,footskip=0.5in]{geometry}
 \usepackage{graphicx}
 \usepackage{float}
 
@@ -77,9 +77,8 @@ Whilst python is conducive to comprehensible code, C outperforms any high level 
 We reprogrammed the board mechanics, priority queue, and greedy algorithm in C for evaluation.
 The result was verbose, but faster.
 
-\pagebreak
-
 % AI Considerations
+
 \subsection*{AI Considerations}
 \paragraph \indent
 To make our artificial intelligence achieve the highest score, we need to score each board layout against several criteria.
@@ -113,18 +112,24 @@ We opted to use more portible code here.
 \subsection*{Naive}
 \paragraph \indent
 Initially an naive algorithm was implimented to play Threes one move at a time.
-It would look at the four possible moves, left, right, up and down, and take the one that gives it the highest score.
-The naive algorithm is useful as a heuristic later in the A* implimentation. In C, we provided a simple "count the zeros" heuristic to the naive algorithm. We found that by minimising the tiles on the board instead of chasing high tiles, the algorithm produces a better final result.
+It would look at the four possible moves for the current board configuration (left, right, up and down), and make the one that gives it the highest score.
+The naive algorithm is useful as an initial heuristic later in the A* implimentation.
+In the C port, we provided a simple "count the zeros" heuristic to the naive algorithm.
+We found that by minimising the tiles on the board instead of chasing high tiles, the algorithm produces a better final result.
 
 \subsection*{Minimax}
 \paragraph \indent
 Both minimax and expectiminimax implimentations were investigated due to the similarities between Threes and 2048, and the already existing 2048 AI by Matt Overlan\cite{2048ai}.
-In 2048 the next tile is placed randomly, while the specifications for this project state that the next tile will be placed in the lexographically lowest location.
+A major difference between 2048 and Threes is that in 2048 the next tile is placed randomly, while in Threes the location of the next tile will be placed in the lexographically lowest location.
 This difference means that the Threes bot does not end up playing against anything -- it becomes a deterministic problem as opposed to a stochastic one -- and so minimax is not a relevant algorithm.
 
 \subsection*{A Star}
 \paragraph \indent
 A*, by definition, finds the least-cost path from the initial state to a goal state providing that its algorithms are correct and admissible. It is easy to devise monotonic heuristics for Threes, making A* particularly promising. The goal state in a game of Threes is the highest scoring full board, meaning that the algorithm needs to avoid filling the board for as long as possible.
+
+% Test Data
+
+\section*{Test Data}
 
 % bibliography
 
