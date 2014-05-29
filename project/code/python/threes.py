@@ -88,9 +88,17 @@ def scoreboard(board):
 	return score
 
 def freespaces(board):
-	free = -1
+	free = 0
 	for i in range(4):
 		for j in range(4):
 			if board[i][j] == 0:
 				free += 1
 	return free
+
+def usedpaces(board):
+	used = 0
+	for i in range(4):
+		for j in range(4):
+			if board[i][j] != 0:
+				used += 1
+	return used
