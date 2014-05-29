@@ -51,13 +51,15 @@ def main(infile, outfile):
 	
 	boardout = copy.deepcopy(board)
 	(moves, finalboard) = astar(boardout, tiles)
-	print(finalboard)
+	#print(finalboard)
 	threes.printboard(finalboard)
 	print("Score: " + str(threes.scoreboard(finalboard)))
 	print(moves)
 	print(str(len(moves)) + " moves made in " + str(functime) + "ms")
 	print("OR")
 	print(str(len(moves)/(functime/1000.0)) + " moves per second")
+	print("")
+	print("")
 	output = open(outfile, "w")
 	output.write("ThreesBot\n")
 	output.write("By Mitchell Pomery (21130887) and Kieran Hannigan (21151118)\n")
@@ -100,12 +102,12 @@ def astar(board, tiles):
 		move = astarmoves(board, tiles[i:])
 		if move == "":
 			return (output, board)
-		else:
-			print(move)
+		#else:
+			#print(move)
 		board = threes.domove(board, move, tiles[i])
 		output += move
 		i += 1
-		print(output)
+		#print(output)
 	return (output, board)
 
 def astarmoves(board, tiles):
@@ -113,8 +115,8 @@ def astarmoves(board, tiles):
 	nextXtiles = tiles[0:lookahead]
 	if board == None:
 		return ""
-	print(nextXtiles)
-	print(board)
+	#print(nextXtiles)
+	#print(board)
 	naiveX = naive(board, nextXtiles)
 	scorenaive = threes.scoreboard(naiveX[1]) # f(n)
 	#print(naiveX)
