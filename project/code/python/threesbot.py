@@ -72,7 +72,7 @@ def naive(board, tiles):
 		i += 1
 	return(output, board)
 
-def astar(board, tiles):
+def astarcurrent(board, tiles):
 	return astar(board, tiles, astarmovecurrent)
 
 def astarnaive(board, tiles):
