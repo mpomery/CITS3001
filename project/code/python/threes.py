@@ -95,7 +95,7 @@ def freespaces(board):
 				free += 1
 	return free
 
-def usedpaces(board):
+def usedspaces(board):
 	used = 0
 	for i in range(4):
 		for j in range(4):
@@ -103,7 +103,7 @@ def usedpaces(board):
 				used += 1
 	return used
 
-def lined_up(board):
+def linedup(board):
 	utility = 1
 	for i in range(4):
 		if ((board[i][0] >= board[i][1] >= board[i][2] >= board[i][3]) or
@@ -114,18 +114,39 @@ def lined_up(board):
 			utility *= 2
 	return utility
 
-#def edgeheavy(board):
-#	utility = 1
-#	if not(board[1][1] > board[0][1] or board[1][1] > board[1][0]):
-#		utility *= 2
-#	if not(board[1][2] > board[0][2] or board[1][2] > board[1][3]):
-#		utility *= 2
-#	if not(board[2][1] > board[2][0] or board[2][1] > board[3][1]):
-#		utility *= 2
-#	if not(board[2][2] > board[3][2] or board[2][2] > board[2][3]):
-#		utility *= 2
+def ringsum(board):
+	utility = 0
+	for i in range(4):
+		utility += board[i][0] + board[0][i] + board[i][3] + board[3][i]
+	utility -= board[0][0] + board[0][3] + board[3][0] + board[3][3]
+	return utility
+
+#def coresum(board):
+#	utility = 0
+#	for i in range(2):
+#		utility += board[1][i+1] + board[2][i+1]
 #	return utility
-#
+
+#def edgeheavy(board):
+#	utility = 0
+#	if board[0][1] > board[1][1]:
+#		utility += 2
+#	if board[0][2] > board[1][2]:
+#		utility += 2
+#	if board[1][0] > board[1][1]:
+#		utility += 2
+#	if board[2][0] > board[2][1]:
+#		utility += 2
+#	if board[1][3] > board[1][2]:
+#		utility += 2
+#	if board[2][3] > board[2][2]:
+#		utility += 2
+#	if board[3][1] > board[2][1]:
+#		utility += 2
+#	if board[3][2] > board[2][2]:
+#		utility += 2
+#	return utility
+
 #def united(board):
 #	utility = 1;
 #	for i in range(4):

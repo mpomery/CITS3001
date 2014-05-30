@@ -161,7 +161,7 @@ def astarmoves(board, tiles):
 	count = 0
 	count2 = 0
 	
-	bestadjusted = scorenaive * threes.freespaces(naiveX[1]) * threes.lined_up(naiveX[1])
+	bestadjusted = scorenaive * utility(naiveX[1])
 	bestpath = naiveX[0]
 	
 	for o in open:
@@ -171,13 +171,16 @@ def astarmoves(board, tiles):
 			#print(threes.scoreboard(o[0]))
 			#print(threes.freespaces(o[0]))
 			#print(threes.scoreboard(o[0]) * threes.freespaces(o[0]))
-			if threes.scoreboard(o[0]) * threes.freespaces(o[0]) * threes.lined_up(o[0]) >= bestadjusted:
+			if threes.scoreboard(o[0]) * utility(o[0]) >= bestadjusted:
 				count2 += 1
-				bestadjusted = threes.scoreboard(o[0]) * threes.freespaces(o[0]) * threes.lined_up(o[0])
+				bestadjusted = threes.scoreboard(o[0]) * utility(o[0]) 
 				bestpath = o[1]
 	
 	#print("")
 	return bestpath[0]
+
+def utility(board):
+	return (threes.freespaces(board) * threes.linedup(board) * threes.ringsum(board))
 
 def astarmove(board, tiles):
 	output = ""
