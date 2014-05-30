@@ -11,36 +11,18 @@ import copy
 import time
 import threes
 import QuinaryTree
-#import psutil
 import os
 
-functime = 1
+debug = False
 
-# Some magic for timing the playthrough
-# Stolen From: http://stackoverflow.com/a/5478448
-def timing(f):
-	def wrap(*args):
-		global functime
-		time1 = time.time()
-		ret = f(*args)
-		time2 = time.time()
-		functime = (time2-time1)*1000.0
-		print '%s function took %0.3f ms' % (f.func_name, (time2-time1)*1000.0)
-		return ret
-	return wrap
+#Kept for backwards compatibility
+def main(infile, outfile):
+	return main(infile, outfile, astar)
 
 # Main function. Loads the input file
-def main(infile, outfile):
-	return main(infile, outfile, naive)
-
 def main(infile, outfile, function):
-	# Up out process priority
-	#p = psutil.Process(os.getpid())
-	#p.set_nice(psutil.HIGH_PRIORITY_CLASS)
 	# Load Data from input file arg
 	# We assume the input is correctly formatted
-
-	# This stuff is Pythonic!
 	tiles = []
 	input = open(infile, "r")
 	input.readline() # First 2 lines are comments
@@ -51,22 +33,15 @@ def main(infile, outfile, function):
 	for line in input:
 		map(tiles.append, map(int, line.split()))
 	input.close()
-	
-	boardout = copy.deepcopy(board)
-	(moves, finalboard) = function(boardout, tiles)
-	#print(finalboard)
-	#threes.printboard(finalboard)
-	#print("Score: " + str(threes.scoreboard(finalboard)))
-	#print(moves)
-	#print(str(len(moves)) + " moves made in " + str(functime) + "ms")
-	#print("OR")
-	#print(str(len(moves)/(functime/1000.0)) + " moves per second")
-	#print("")
-	#print("")
+	(moves, finalboard) = function(board, tiles)
 	output = open(outfile, "w")
 	output.write("ThreesBot\n")
 	output.write("By Mitchell Pomery (21130887) and Kieran Hannigan (21151118)\n")
 	output.write(moves)
+	if debug:
+		print("Moves: " + str(moves))
+		print("score: " + str(threes.scoreboard(finalboard)))
+		threes.printboard(finalboard)
 	return (threes.scoreboard(finalboard), moves)
 
 # Niave bot. Will find the best move then make it.
@@ -76,11 +51,11 @@ def naive(board, tiles):
 	while i < len(tiles):
 		qt = QuinaryTree.QuinaryTree(board)
 		qt.makeleaves(tiles[i])
-		
 		if qt.left.board == None and qt.right.board == None and \
-		qt.up.board == None and qt.down.board == None:
+		   qt.up.board == None and qt.down.board == None:
+			# No moves possible
 			return(output, board)
-		
+		#make move to maximize score
 		maximum = max(qt.left.score, qt.right.score, qt.up.score, qt.down.score)
 		if (maximum == qt.left.score):
 			board = qt.left.board
@@ -97,24 +72,25 @@ def naive(board, tiles):
 		i += 1
 	return(output, board)
 
-# http://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
-#@timing
 def astar(board, tiles):
+	return astar(board, tiles, astarmovecurrent)
+
+def astarnaive(board, tiles):
+	return astar(board, tiles, astarmovenaive)
+
+def astar(board, tiles, function):
 	i = 0;
 	output = "";
 	while i < len(tiles):
-		move = astarmoves(board, tiles[i:])
+		move = function(board, tiles[i:])
 		if move == "":
 			return (output, board)
-		#else:
-			#print(move)
 		board = threes.domove(board, move, tiles[i])
 		output += move
 		i += 1
-		#print(output)
 	return (output, board)
 
-def astarmoves(board, tiles):
+def astarmovecurrent(board, tiles):
 	lookahead = min(5, len(tiles))
 	nextXtiles = tiles[0:lookahead]
 	if board == None:
@@ -167,10 +143,6 @@ def astarmoves(board, tiles):
 	for o in open:
 		if threes.scoreboard(o[0]) >= scorenaive:
 			count += 1
-			#print(o[0])
-			#print(threes.scoreboard(o[0]))
-			#print(threes.freespaces(o[0]))
-			#print(threes.scoreboard(o[0]) * threes.freespaces(o[0]))
 			if threes.scoreboard(o[0]) * utility(o[0]) >= bestadjusted:
 				count2 += 1
 				bestadjusted = threes.scoreboard(o[0]) * utility(o[0]) 
@@ -182,7 +154,12 @@ def astarmoves(board, tiles):
 def utility(board):
 	return (threes.freespaces(board) * threes.linedup(board) * threes.ringsum(board))
 
-def astarmove(board, tiles):
+# Similar to the naive search, but checks further down for best score
+# Searches down the tree. Time limited search.
+# Will take move that maximizes score at the end.
+# Only considers the last fully complete depth
+# prunes paths that aren't >75% of the best found so far
+def astarmovenaive(board, tiles):
 	output = ""
 	closed = []
 	open = [(board, "")]
@@ -225,7 +202,6 @@ def astarmove(board, tiles):
 						maxpath = current[1] + "D"
 					open.append((qt.down.board, current[1] + "D"))
 			closed.append(current)
-	
 	if len(maxpath) == 0:
 		return ""
 	return maxpath[0]

@@ -19,7 +19,7 @@ def timing(f):
 
 def main():
 	files = [ f for f in listdir(mypath) if isfile(join(mypath,f)) ]
-	for function in [threesbot.naive, threesbot.astar]:
+	for function in [threesbot.naive, threesbot.astarnaive, threesbot.astar]:
 		for file in files:
 			time1 = time.time()
 			(score, moves) = threesbot.main(mypath + file, "out/" + file, function)
