@@ -87,7 +87,7 @@ Subsequently, we began a rewrite of the agent to C.
 This allowed us to evaluate the strength and weaknesses of each language - an analysis which would have to be conducted if the code was to be hard optimized for production.
 Whilst python is conducive to comprehensible code, C outperforms any high level language when it comes to space and speed requirements.
 We reprogrammed the board mechanics, priority queue, and greedy algorithm in C for evaluation.
-The result was verbose, but faster.
+The result was verbose, but faster by almost 30\%.
 
 % AI Considerations
 
@@ -159,7 +159,8 @@ The final A* implimentation we created as depth limited and had similar final sc
 \begin{tabular}{|  l | r | r |}
 	\hline
 		\textbf{Algorithm} & \textbf{Average Time(ms)} & \textbf{Average Score} \\ \hline
-		Naive & 18 & 305 \\ \hline
+		Naive - C & 13 & 309 \\ \hline
+		Naive - Python & 18 & 305 \\ \hline
 		Naive A* & 31951 & 7665 \\ \hline
 		Final A* & 17670 & 6731 \\
 	\hline
