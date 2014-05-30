@@ -1,4 +1,0 @@
-This is a very small example output file. 
-
-UD123RRRRUU Wales 21-0 Australia DDDRLLLUUDDULRLUD
-DRUL-- --LURDR
