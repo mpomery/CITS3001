@@ -31,6 +31,9 @@ def timing(f):
 
 # Main function. Loads the input file
 def main(infile, outfile):
+	return main(infile, outfile, naive)
+
+def main(infile, outfile, function):
 	# Up out process priority
 	#p = psutil.Process(os.getpid())
 	#p.set_nice(psutil.HIGH_PRIORITY_CLASS)
@@ -50,20 +53,21 @@ def main(infile, outfile):
 	input.close()
 	
 	boardout = copy.deepcopy(board)
-	(moves, finalboard) = astar(boardout, tiles)
+	(moves, finalboard) = function(boardout, tiles)
 	#print(finalboard)
-	threes.printboard(finalboard)
-	print("Score: " + str(threes.scoreboard(finalboard)))
-	print(moves)
-	print(str(len(moves)) + " moves made in " + str(functime) + "ms")
-	print("OR")
-	print(str(len(moves)/(functime/1000.0)) + " moves per second")
-	print("")
-	print("")
+	#threes.printboard(finalboard)
+	#print("Score: " + str(threes.scoreboard(finalboard)))
+	#print(moves)
+	#print(str(len(moves)) + " moves made in " + str(functime) + "ms")
+	#print("OR")
+	#print(str(len(moves)/(functime/1000.0)) + " moves per second")
+	#print("")
+	#print("")
 	output = open(outfile, "w")
 	output.write("ThreesBot\n")
 	output.write("By Mitchell Pomery (21130887) and Kieran Hannigan (21151118)\n")
 	output.write(moves)
+	return (threes.scoreboard(finalboard), moves)
 
 # Niave bot. Will find the best move then make it.
 def naive(board, tiles):
@@ -94,7 +98,7 @@ def naive(board, tiles):
 	return(output, board)
 
 # http://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
-@timing
+#@timing
 def astar(board, tiles):
 	i = 0;
 	output = "";
