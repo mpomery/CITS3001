@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 
+\setlength{\parindent}{12pt}
 
 \newcommand{\subtitle}[1]{
 	\posttitle{
@@ -14,10 +15,20 @@
 	}
 }
 
-\setlength{\parindent}{12pt}
+\newcommand{\coverphoto}[2]{
+	\postdate{
+		\par\end{center}
+		\begin{figure}[h!]
+			\centering \includegraphics[width=15cm]{#1}
+			\caption{#2}
+		\end{figure}
+	}
+}
+
 
 
 % document
+
 \begin{document}
 
 % Title Page
@@ -26,7 +37,9 @@
 \subtitle{Threes Bot - Artificial Intelligence Project}
 \author{Mitchell Pomery (21130887)\\
 Kieran Hannigan (21151118)}
+\coverphoto{images/constructive}{XKCD 810}
 \maketitle
+
 \clearpage
 
 % Introduction
@@ -49,8 +62,8 @@ We were tasked with the creation of an artificial intelligence to play the game 
 % What Exactly Are We doing
 
 \paragraph \indent
-We were required to investigate algorithms and implimentations to create an artificial intelligence, or bot, to play Threes with the intent of getting as high a score as possible.
-The specifications for the bot stated three main points that were considered during the design and implimentation.
+We were required to investigate algorithms and implementations to create an artificial intelligence, or bot, to play Threes with the intent of getting as high a score as possible.
+The specifications for the bot stated three main points that were considered during the design and implementation.
 \begin{enumerate}
 	\item All upcoming tiles are known
 	\item Tile placement is deterministic
@@ -59,7 +72,7 @@ The specifications for the bot stated three main points that were considered dur
 
 \paragraph \indent
 Knowing all upcoming tiles, and by being able to determine the location they will be placed means that at each node, there are only up to 4 different moves that can occur.
-Large input data sets remove the ability to search all possible combinations of moves, meaning that a either a search depth needs to be implimented or a maximum search time.
+Large input data sets remove the ability to search all possible combinations of moves, meaning that a either a search depth needs to be implemented or a maximum search time.
 
 
 % Design Choices
@@ -72,7 +85,7 @@ Large input data sets remove the ability to search all possible combinations of 
 Python was chosen as the initial implementation language due to the rapid prototyping of different algorithms and data structures that it facilitates.
 Its handling of memory is convenient, and its formatting requirements make it easy to read and intuit - valuable attributes when codeveloping an artificial intelligence.
 Subsequently, we began a rewrite of the agent to C.
-This allowed us to evaluate the strength an weaknesses of each language - an analysis which would have to be conducted if the code was to be hard optimised for production.
+This allowed us to evaluate the strength an weaknesses of each language - an analysis which would have to be conducted if the code was to be hard optimized for production.
 Whilst python is conducive to comprehensible code, C outperforms any high level language when it comes to space and speed requirements.
 We reprogrammed the board mechanics, priority queue, and greedy algorithm in C for evaluation.
 The result was verbose, but faster.
@@ -90,7 +103,7 @@ Less tiles on the board means that we can add more tiles, and hence more points,
 \paragraph \indent
 The location of the high number tiles is important in a boards configuration.
 Having the high number tiles in the central four squares on a board means that they are stopping the lower tiles from residing next to each other.
-Smoothness of the board was considred after reading a Stack Overflow thread on 2048 artificial intelligences\cite{2048so}.
+Smoothness of the board was considered after reading a Stack Overflow thread on 2048 artificial intelligence algorithms\cite{2048so}.
 Smooth board layouts mean that high numbered tiles are clustered in one corner and 
 These two criteria are similar as both relate to the layout of the board, so they are be converted into a single measure.
 
@@ -100,27 +113,27 @@ These two criteria are similar as both relate to the layout of the board, so the
 
 \subsection*{Making Moves}
 \paragraph \indent
-There are two ways the moves can be implimented in the bot, either each possible move seperately, or by rotating the board and treating all moves as the one direction.
-In our python implimentation we employ the latter of the two algorithms, as it allows us to reduce the amount of code written. However rotating a sixteen by sixteen board can take several operations, so to avoid this, instead of rotating the board, we rotate the co-ordinates.
+There are two ways the moves can be implemented in the bot, either each possible move separately, or by rotating the board and treating all moves as the one direction.
+In our python implementation we employ the latter of the two algorithms, as it allows us to reduce the amount of code written. However rotating a sixteen by sixteen board can take several operations, so to avoid this, instead of rotating the board, we rotate the co-ordinates.
 In our C experiment, we move the board using loops and array operations.
 We also experimented with large integer bitboards.
 A 64 bit bitboard allows for each tile to be encoded in a 4 bit nybble.
-Unfortunately this means a maximum tile size of 12288 which we predicted would be readily achievable by a fully optimised algorithm. Bitboards are optimal because they provide the CPU with a memory unit that it can make extremely efficient shift and addition operations on.
-Unfortunately this advanatage is largely lost when using multiple boards or 128 bit boards are used -- as would be required for the tile size -- especially on machines with 32 bit registers.
-We opted to use more portible code here.
+Unfortunately this means a maximum tile size of 12288 which we predicted would be readily achievable by a fully optimized algorithm. Bitboards are optimal because they provide the CPU with a memory unit that it can make extremely efficient shift and addition operations on.
+Unfortunately this advantage is largely lost when using multiple boards or 128 bit boards are used -- as would be required for the tile size -- especially on machines with 32 bit registers.
+We opted to use more portable code here.
 
 \subsection*{Naive}
 \paragraph \indent
-Initially an naive algorithm was implimented to play Threes one move at a time.
+Initially an naive algorithm was implemented to play Threes one move at a time.
 It would look at the four possible moves for the current board configuration (left, right, up and down), and make the one that gives it the highest score.
-The naive algorithm is useful as an initial heuristic later in the A* implimentation.
+The naive algorithm is useful as an initial heuristic later in the A* implementation.
 In the C port, we provided a simple "count the zeros" heuristic to the naive algorithm.
-We found that by minimising the tiles on the board instead of chasing high tiles, the algorithm produces a better final result.
+We found that by minimizing the tiles on the board instead of chasing high tiles, the algorithm produces a better final result.
 
 \subsection*{Minimax}
 \paragraph \indent
-Both minimax and expectiminimax implimentations were investigated due to the similarities between Threes and 2048, and the already existing 2048 AI by Matt Overlan\cite{2048ai}.
-A major difference between 2048 and Threes is that in 2048 the next tile is placed randomly, while in Threes the location of the next tile will be placed in the lexographically lowest location.
+Both minimax and expectiminimax implementations were investigated due to the similarities between Threes and 2048, and the already existing 2048 AI by Matt Overlan\cite{2048ai}.
+A major difference between 2048 and Threes is that in 2048 the next tile is placed randomly, while in Threes the location of the next tile will be placed in the lexicographical lowest location.
 This difference means that the Threes bot does not end up playing against anything -- it becomes a deterministic problem as opposed to a stochastic one -- and so minimax is not a relevant algorithm.
 
 \subsection*{A Star}
