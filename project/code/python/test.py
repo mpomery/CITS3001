@@ -25,7 +25,7 @@ def main():
 			(score, moves) = threesbot.main(mypath + file, "out/" + file, function)
 			time2 = time.time()
 			functime = (time2-time1)*1000.0
-			print(function.__name__ + ", " + file + ", " + str(functime) + ", " + str(score) + ", " + str(len(moves)))
+			print(function.__name__ + "," + file + "," + str(functime) + "," + str(score) + "," + str(len(moves)))
 
 if __name__ == '__main__':
 	main();
