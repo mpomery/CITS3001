@@ -103,21 +103,36 @@ def usedpaces(board):
 				used += 1
 	return used
 
-def edgeheavy(board):
+def lined_up(board):
 	utility = 1
-	if not(board[1][1] > board[0][1] or board[1][1] > board[1][0] or 
-		   board[1][2] > board[0][2] or board[1][2] > board[1][3] or 
-		   board[2][1] > board[2][0] or board[2][1] > board[3][1] or 
-		   board[2][2] > board[3][2] or board[2][2] > board[2][3]):
-		utility += 10;
+	for i in range(4):
+		if ((board[i][0] >= board[i][1] >= board[i][2] >= board[i][3]) or
+			(board[i][0] <= board[i][1] <= board[i][2] <= board[i][3])):
+			utility *= 2
+		if ((board[0][i] >= board[1][i] >= board[2][i] >= board[3][i]) or
+			(board[0][i] <= board[1][i] <= board[2][i] <= board[3][i])):
+			utility *= 2
 	return utility
 
-def united(board):
-	badness = 0;
-	for i in range(4):
-		for j in range(2):
-			if board[i][j+1] < board[i][j] and board[i][j+1] < board[i][j+2]:
-				badness -= (board[i][j+1] + board[i][j+2])/2 - board[i][j+1]
-			if board[i+1][j] < board[i][j] and board[i+1][j] < board[i+2][j]:
-				badness -= (board[i+1][j] + board[i+2][j])/2 - board[i+1][j]
-	return badness
+#def edgeheavy(board):
+#	utility = 1
+#	if not(board[1][1] > board[0][1] or board[1][1] > board[1][0]):
+#		utility *= 2
+#	if not(board[1][2] > board[0][2] or board[1][2] > board[1][3]):
+#		utility *= 2
+#	if not(board[2][1] > board[2][0] or board[2][1] > board[3][1]):
+#		utility *= 2
+#	if not(board[2][2] > board[3][2] or board[2][2] > board[2][3]):
+#		utility *= 2
+#	return utility
+#
+#def united(board):
+#	utility = 1;
+#	for i in range(4):
+#		for j in range(2):
+#			if not(board[i][j+1] < board[i][j] and board[i][j+1] < board[i][j+2]):
+#				utility *= 2
+#			if not(board[j+1][i] < board[j][i] and board[j+1][i] < board[j+2][i]):
+#				utility *= 2
+#	return utility
+#
