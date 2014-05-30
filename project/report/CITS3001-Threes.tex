@@ -76,6 +76,8 @@ Large input data sets remove the ability to search all possible combinations of 
 
 % Design Choices
 
+\pagebreak
+
 \section*{Design Choices}
 
 % Language Choice
@@ -142,6 +144,19 @@ It is easy to devise monotonic heuristics for Threes, making A* particularly pro
 The goal state in a game of Threes is the highest scoring full board, meaning that the algorithm needs to avoid filling the board for as long as possible.
 Multiple iterations of A* algorithms were implimented to glean a measure of the effectiveness of each heuristic.
 
+\paragraph \indent
+A naive A* algorithm was implimented as a base algorithm.
+It showed immediate score increases over the straight naive algorithms.
+The only heuristic used was the score of the board and the only advantage of the naive algorithms was the fact that it looked forward multiple moves.
+
+\paragraph \indent
+The final A* implimentation went through multiple iterations before its current state.
+Different iterations showed better performance on different boards as we wored towards maximising the score for every board.
+The heuristics used in this algorithm were the score, the weight of the edges of the board, and how lined up the rows were.
+By adjusting these heuristics, it is possible to tune the performance, and potentially increase the final score that the bot achieves.
+
+\pagebreak
+
 % Test Data
 
 \section*{Test Data}
@@ -151,8 +166,8 @@ It was modified to create multiple ouput files with 1000 upcoming tiles in one r
 \texttt{test.py} would then be used to load the input files and run them through the written algorithms, outputting the data in CSV form for analysis.
 
 \paragraph \indent
-Testing was done over three algorithms, the naive implimentation, a naive A* implimentation and our final A* implimentation.
-We found that the naive algorithm would quickly fill up all the available space on the board whereas the naive A* would avoid filling the board for as long as possible.
+Testing was done over four algorithms, the naive python implimentation, the naive C implimentation, a naive A* implimentation and our final A* implimentation.
+We found that the naive algorithms would quickly fill up all the available space on the board whereas the naive A* would avoid filling the board for as long as possible.
 The final A* implimentation we created as depth limited and had similar final scores as the naive A* implimentation but took half the time.
 
 \begin{center}
@@ -166,6 +181,10 @@ The final A* implimentation we created as depth limited and had similar final sc
 	\hline
 \end{tabular}
 \end{center}
+
+\paragraph \indent
+%The above table shows that both naive implimentations have result in times and scores, and the two A* implimentations result in similar scores in vastly different times.
+
 
 % bibliography
 
